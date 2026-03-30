@@ -431,36 +431,41 @@
       return city;
     }
 
+    const MIN_COUNT = 3;
+
     function sortCities(cities) {
+      const filtered = cities.filter(c => c.count >= MIN_COUNT);
       if (currentLang === 'en') {
-        // Alfabetik
-        return [...cities].sort((a, b) => a.city.localeCompare(b.city, 'en'));
+        return { list: [...filtered].sort((a, b) => a.city.localeCompare(b.city, 'en')), dividerAfter: -1 };
       } else {
-        // TR: önce Türk şehirleri (alfabetik TR), sonra dünya şehirleri (alfabetik EN)
-        const trCities = cities.filter(c => TR_CITIES.has(c.city))
+        const trCities = filtered.filter(c => TR_CITIES.has(c.city))
           .sort((a, b) => displayName(a.city).localeCompare(displayName(b.city), 'tr'));
-        const worldCities = cities.filter(c => !TR_CITIES.has(c.city))
+        const worldCities = filtered.filter(c => !TR_CITIES.has(c.city))
           .sort((a, b) => a.city.localeCompare(b.city, 'en'));
-        return [...trCities, ...worldCities];
+        return { list: [...trCities, ...worldCities], dividerAfter: trCities.length };
       }
     }
 
     function renderCities(cities) {
       const grid = document.getElementById('grid');
       const empty = document.getElementById('empty');
-      if (!cities.length) {
+      const { list, dividerAfter } = sortCities(cities);
+      if (!list.length) {
         grid.innerHTML = '';
         empty.style.display = 'block';
         return;
       }
       empty.style.display = 'none';
-      const sorted = sortCities(cities);
-      grid.innerHTML = sorted.map(c => `
-        <div class="city-card">
+      const cards = list.map((c, i) => {
+        const divider = (currentLang === 'tr' && dividerAfter > 0 && i === dividerAfter)
+          ? `<div style="grid-column:1/-1;border-top:1px solid rgba(201,168,76,0.15);margin:8px 0"></div>`
+          : '';
+        return `${divider}<div class="city-card">
           <span class="city-name">${esc(displayName(c.city))}</span>
           <span class="city-count">${c.count}</span>
-        </div>
-      `).join('');
+        </div>`;
+      });
+      grid.innerHTML = cards.join('');
     }
 
     function filterCities(q) {

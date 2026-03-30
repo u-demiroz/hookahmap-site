@@ -415,9 +415,34 @@
     }
 
 
+    // Türkiye şehirleri (canonical İngilizce isimleriyle)
+    const TR_CITIES = new Set([
+      'Istanbul','Ankara','Izmir','Antalya','Bursa','Adana','Konya','Gaziantep',
+      'Mersin','Kayseri','Eskişehir','Trabzon','Samsun','Sakarya','Hatay',
+      'Malatya','Nevşehir','Bodrum','Alanya','Şanlıurfa','Mardin','Kocaeli',
+      'Van','Aydın','Ordu','Muğla','Balıkesir','Manisa','Denizli','Diyarbakır',
+      'Erzurum','Isparta','Kahramanmaraş','Karabük','Kastamonu','Kilis',
+      'Edirne','Çanakkale','Çorum','Zonguldak','Tokat','Burdur','Afyonkarahisar',
+      'Aksaray','Artuklu','Gebze','Elazığ','Adıyaman','Erzincan',
+    ]);
+
     function displayName(city) {
       if (currentLang === 'tr' && TR_NAMES[city]) return TR_NAMES[city];
       return city;
+    }
+
+    function sortCities(cities) {
+      if (currentLang === 'en') {
+        // Alfabetik
+        return [...cities].sort((a, b) => a.city.localeCompare(b.city, 'en'));
+      } else {
+        // TR: önce Türk şehirleri (alfabetik TR), sonra dünya şehirleri (alfabetik EN)
+        const trCities = cities.filter(c => TR_CITIES.has(c.city))
+          .sort((a, b) => displayName(a.city).localeCompare(displayName(b.city), 'tr'));
+        const worldCities = cities.filter(c => !TR_CITIES.has(c.city))
+          .sort((a, b) => a.city.localeCompare(b.city, 'en'));
+        return [...trCities, ...worldCities];
+      }
     }
 
     function renderCities(cities) {
@@ -429,7 +454,8 @@
         return;
       }
       empty.style.display = 'none';
-      grid.innerHTML = cities.map(c => `
+      const sorted = sortCities(cities);
+      grid.innerHTML = sorted.map(c => `
         <div class="city-card">
           <span class="city-name">${esc(displayName(c.city))}</span>
           <span class="city-count">${c.count}</span>

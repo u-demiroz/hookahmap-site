@@ -15,6 +15,33 @@
       min-height: 100vh;
     }
 
+    /* Lang switcher */
+    .lang-bar {
+      position: fixed;
+      top: 16px;
+      right: 20px;
+      display: flex;
+      gap: 6px;
+      z-index: 10;
+    }
+    .lang-btn {
+      background: rgba(15,7,0,0.7);
+      border: 1px solid rgba(201,168,76,0.25);
+      border-radius: 8px;
+      color: #7a6040;
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 5px 11px;
+      cursor: pointer;
+      backdrop-filter: blur(8px);
+      transition: all 0.15s;
+    }
+    .lang-btn:hover, .lang-btn.active {
+      background: rgba(201,168,76,0.12);
+      border-color: rgba(201,168,76,0.5);
+      color: #c9a84c;
+    }
+
     /* Hero */
     .hero {
       min-height: 100vh;
@@ -70,15 +97,8 @@
       margin-bottom: 60px;
       transition: transform 0.2s, opacity 0.2s;
     }
-
-    .app-store-btn:hover {
-      transform: scale(1.05);
-      opacity: 0.9;
-    }
-
-    .app-store-btn img {
-      height: 54px;
-    }
+    .app-store-btn:hover { transform: scale(1.05); opacity: 0.9; }
+    .app-store-btn img { height: 54px; }
 
     /* Features */
     .features {
@@ -97,7 +117,6 @@
       text-align: center;
       width: 180px;
     }
-
     .feature .icon { font-size: 2rem; margin-bottom: 10px; }
     .feature .title { font-size: 0.95rem; font-weight: 600; color: #c9a84c; margin-bottom: 4px; }
     .feature .desc { font-size: 0.82rem; color: #7a6040; line-height: 1.4; }
@@ -108,13 +127,7 @@
       text-align: center;
       background: #0a0400;
     }
-
-    .section h2 {
-      font-size: 2rem;
-      color: #c9a84c;
-      margin-bottom: 16px;
-    }
-
+    .section h2 { font-size: 2rem; color: #c9a84c; margin-bottom: 16px; }
     .section p {
       color: #7a6040;
       max-width: 500px;
@@ -131,7 +144,6 @@
       color: #4a3820;
       font-size: 0.85rem;
     }
-
     footer a { color: #7a6040; text-decoration: none; }
     footer a:hover { color: #c9a84c; }
     footer .sep { margin: 0 10px; }
@@ -139,55 +151,114 @@
 </head>
 <body>
 
+  <div class="lang-bar">
+    <button class="lang-btn active" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" onclick="setLang('tr')">TR</button>
+  </div>
+
   <div class="hero">
     <img src="logo.jpg" alt="HookahMap" class="logo">
     <h1>HookahMap</h1>
-    <p class="tagline">Discover the best hookah lounges and shisha bars near you — anywhere in the world.</p>
+    <p class="tagline" id="tagline">Discover the best hookah lounges and shisha bars near you — anywhere in the world.</p>
 
     <a href="https://apps.apple.com/tr/app/hookahmap/id6760507169" class="app-store-btn">
-      <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="Download on the App Store">
+      <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="Download on the App Store" id="store-badge">
     </a>
 
     <div class="features">
       <div class="feature">
         <div class="icon">📍</div>
-        <div class="title">Explore</div>
-        <div class="desc">Find the nearest lounges based on your location</div>
+        <div class="title" id="f1-title">Explore</div>
+        <div class="desc" id="f1-desc">Find the nearest lounges based on your location</div>
       </div>
       <div class="feature">
         <div class="icon">⭐</div>
-        <div class="title">Rate</div>
-        <div class="desc">Leave reviews, give ratings, fill out surveys</div>
+        <div class="title" id="f2-title">Rate</div>
+        <div class="desc" id="f2-desc">Leave reviews, give ratings, fill out surveys</div>
       </div>
       <div class="feature">
         <div class="icon">❤️</div>
-        <div class="title">Favorites</div>
-        <div class="desc">Save the places you love for later</div>
+        <div class="title" id="f3-title">Favorites</div>
+        <div class="desc" id="f3-desc">Save the places you love for later</div>
       </div>
     </div>
   </div>
 
   <div class="section">
     <h2 id="stat-total">13,000+ Venues</h2>
-    <p>Thousands of hookah lounges from Turkey and around the world. Our database is updated daily so you always get the latest.</p>
-    <p style="margin-top:16px"><a href="/cities.html" style="color:#c9a84c;text-decoration:none;font-weight:600">Browse by city →</a></p>
+    <p id="stat-desc">Thousands of hookah lounges from Turkey and around the world. Our database is updated daily so you always get the latest.</p>
+    <p style="margin-top:16px"><a href="/cities.html" id="cities-link" style="color:#c9a84c;text-decoration:none;font-weight:600">Browse by city →</a></p>
   </div>
 
   <footer>
     <p>© 2026 HookahMap
       <span class="sep">·</span>
-      <a href="/cities.html">Cities</a>
+      <a href="/cities.html" id="footer-cities">Cities</a>
       <span class="sep">·</span>
-      <a href="/privacy.html">Privacy Policy</a>
+      <a href="/privacy.html" id="footer-privacy">Privacy Policy</a>
       <span class="sep">·</span>
-      <a href="mailto:support@hookahmap.app">Contact</a>
+      <a href="mailto:support@hookahmap.app" id="footer-contact">Contact</a>
     </p>
   </footer>
 
   <script>
+    const i18n = {
+      en: {
+        tagline: 'Discover the best hookah lounges and shisha bars near you — anywhere in the world.',
+        badgeAlt: 'Download on the App Store',
+        f1Title: 'Explore', f1Desc: 'Find the nearest lounges based on your location',
+        f2Title: 'Rate',    f2Desc: 'Leave reviews, give ratings, fill out surveys',
+        f3Title: 'Favorites', f3Desc: 'Save the places you love for later',
+        statDesc: 'Thousands of hookah lounges from Turkey and around the world. Our database is updated daily so you always get the latest.',
+        citiesLink: 'Browse by city →',
+        footerCities: 'Cities',
+        footerPrivacy: 'Privacy Policy',
+        footerContact: 'Contact',
+        statSuffix: n => n.toLocaleString('en-US') + '+ Venues',
+      },
+      tr: {
+        tagline: 'Yakınındaki en iyi nargile mekanlarını keşfet — dünyanın her yerinde.',
+        badgeAlt: "App Store'dan İndir",
+        f1Title: 'Keşfet',   f1Desc: 'Konumuna göre en yakın mekanları bul',
+        f2Title: 'Değerlendir', f2Desc: 'Yorum yap, puan ver, anket doldur',
+        f3Title: 'Favori',   f3Desc: 'Beğendiğin mekanları kaydet',
+        statDesc: "Türkiye ve dünyadan binlerce nargile mekanı. Sürekli güncellenen veritabanı ile her zaman en güncel bilgiye ulaş.",
+        citiesLink: 'Şehirlere göre listele →',
+        footerCities: 'Şehirler',
+        footerPrivacy: 'Gizlilik Politikası',
+        footerContact: 'İletişim',
+        statSuffix: n => n.toLocaleString('tr-TR') + '+ Mekan',
+      }
+    };
+
+    let currentTotal = null;
+    let currentLang = 'en';
+
+    function setLang(lang) {
+      currentLang = lang;
+      document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+      document.querySelector(`.lang-btn[onclick="setLang('${lang}')"]`).classList.add('active');
+      document.documentElement.lang = lang;
+      const t = i18n[lang];
+      document.getElementById('tagline').textContent = t.tagline;
+      document.getElementById('store-badge').alt = t.badgeAlt;
+      document.getElementById('f1-title').textContent = t.f1Title;
+      document.getElementById('f1-desc').textContent = t.f1Desc;
+      document.getElementById('f2-title').textContent = t.f2Title;
+      document.getElementById('f2-desc').textContent = t.f2Desc;
+      document.getElementById('f3-title').textContent = t.f3Title;
+      document.getElementById('f3-desc').textContent = t.f3Desc;
+      document.getElementById('stat-desc').textContent = t.statDesc;
+      document.getElementById('cities-link').textContent = t.citiesLink;
+      document.getElementById('footer-cities').textContent = t.footerCities;
+      document.getElementById('footer-privacy').textContent = t.footerPrivacy;
+      document.getElementById('footer-contact').textContent = t.footerContact;
+      if (currentTotal) document.getElementById('stat-total').textContent = t.statSuffix(currentTotal);
+    }
+
     fetch('/stats.json').then(r => r.json()).then(d => {
-      const el = document.getElementById('stat-total');
-      if (el && d.total) el.textContent = d.total.toLocaleString('en-US') + '+ Venues';
+      currentTotal = d.total;
+      document.getElementById('stat-total').textContent = i18n[currentLang].statSuffix(d.total);
     }).catch(() => {});
   </script>
 

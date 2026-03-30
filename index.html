@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HookahMap — Nargile Mekan Rehberi</title>
-  <meta name="description" content="Yakınındaki en iyi nargile mekanlarını keşfet. Yorum yap, favori ekle, arkadaşlarınla paylaş.">
+  <title>HookahMap — Find Hookah Lounges Near You</title>
+  <meta name="description" content="Discover the best hookah lounges and shisha bars near you. Explore, rate, and save your favorites.">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -61,7 +61,7 @@
       font-size: 1.2rem;
       color: #a89060;
       margin-bottom: 40px;
-      max-width: 400px;
+      max-width: 420px;
       line-height: 1.6;
     }
 
@@ -142,52 +142,52 @@
   <div class="hero">
     <img src="logo.jpg" alt="HookahMap" class="logo">
     <h1>HookahMap</h1>
-    <p class="tagline">Yakınındaki en iyi nargile mekanlarını keşfet. Yorum yap, favori ekle.</p>
+    <p class="tagline">Discover the best hookah lounges and shisha bars near you — anywhere in the world.</p>
 
     <a href="https://apps.apple.com/tr/app/hookahmap/id6760507169" class="app-store-btn">
-      <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="App Store'dan İndir">
+      <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="Download on the App Store">
     </a>
 
     <div class="features">
       <div class="feature">
         <div class="icon">📍</div>
-        <div class="title">Keşfet</div>
-        <div class="desc">Konumuna göre en yakın mekanları bul</div>
+        <div class="title">Explore</div>
+        <div class="desc">Find the nearest lounges based on your location</div>
       </div>
       <div class="feature">
         <div class="icon">⭐</div>
-        <div class="title">Değerlendir</div>
-        <div class="desc">Yorum yap, puan ver, anket doldur</div>
+        <div class="title">Rate</div>
+        <div class="desc">Leave reviews, give ratings, fill out surveys</div>
       </div>
       <div class="feature">
         <div class="icon">❤️</div>
-        <div class="title">Favori</div>
-        <div class="desc">Beğendiğin mekanları kaydet</div>
+        <div class="title">Favorites</div>
+        <div class="desc">Save the places you love for later</div>
       </div>
     </div>
   </div>
 
   <div class="section">
-    <h2 id="stat-total">13.279+ Mekan</h2>
-    <p>Türkiye ve dünyadan binlerce nargile mekanı. Sürekli güncellenen veritabanı ile her zaman en güncel bilgiye ulaş.</p>
-    <p style="margin-top:16px"><a href="/cities.html" style="color:#c9a84c;text-decoration:none;font-weight:600">Şehirlere göre listele →</a></p>
+    <h2 id="stat-total">13,000+ Venues</h2>
+    <p>Thousands of hookah lounges from Turkey and around the world. Our database is updated daily so you always get the latest.</p>
+    <p style="margin-top:16px"><a href="/cities.html" style="color:#c9a84c;text-decoration:none;font-weight:600">Browse by city →</a></p>
   </div>
 
   <footer>
     <p>© 2026 HookahMap
       <span class="sep">·</span>
-      <a href="/cities.html">Şehirler</a>
+      <a href="/cities.html">Cities</a>
       <span class="sep">·</span>
-      <a href="/privacy.html">Gizlilik Politikası</a>
+      <a href="/privacy.html">Privacy Policy</a>
       <span class="sep">·</span>
-      <a href="mailto:support@hookahmap.app">İletişim</a>
+      <a href="mailto:support@hookahmap.app">Contact</a>
     </p>
   </footer>
 
   <script>
     fetch('/stats.json').then(r => r.json()).then(d => {
       const el = document.getElementById('stat-total');
-      if (el && d.total) el.textContent = d.total.toLocaleString('tr-TR') + '+ Mekan';
+      if (el && d.total) el.textContent = d.total.toLocaleString('en-US') + '+ Venues';
     }).catch(() => {});
   </script>
 

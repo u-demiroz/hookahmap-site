@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Şehirler — HookahMap</title>
-  <meta name="description" content="HookahMap'te hangi şehirde kaç nargile mekanı var?">
+  <title>Cities — HookahMap</title>
+  <meta name="description" content="How many hookah lounges does HookahMap have per city?">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -17,19 +17,25 @@
 
     header {
       background: #080300;
-      padding: 20px 24px;
+      padding: 16px 24px;
       display: flex;
       align-items: center;
-      gap: 16px;
+      justify-content: space-between;
       border-bottom: 1px solid rgba(201,168,76,0.12);
     }
 
-    header a {
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    header a.back {
       color: #7a6040;
       text-decoration: none;
       font-size: 0.9rem;
     }
-    header a:hover { color: #c9a84c; }
+    header a.back:hover { color: #c9a84c; }
 
     header h1 {
       font-size: 1.4rem;
@@ -37,22 +43,46 @@
       font-weight: 700;
     }
 
+    /* Language switcher */
+    .lang-switch {
+      display: flex;
+      gap: 6px;
+    }
+
+    .lang-btn {
+      background: none;
+      border: 1px solid rgba(201,168,76,0.25);
+      border-radius: 8px;
+      color: #7a6040;
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 4px 10px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .lang-btn:hover, .lang-btn.active {
+      background: rgba(201,168,76,0.12);
+      border-color: rgba(201,168,76,0.5);
+      color: #c9a84c;
+    }
+
     .container {
-      max-width: 900px;
+      max-width: 960px;
       margin: 0 auto;
-      padding: 40px 20px;
+      padding: 36px 20px;
     }
 
     .meta {
       color: #7a6040;
       font-size: 0.85rem;
-      margin-bottom: 32px;
+      margin-bottom: 28px;
     }
 
     .meta strong { color: #c9a84c; }
 
     .search-wrap {
-      margin-bottom: 28px;
+      margin-bottom: 24px;
     }
 
     input[type="search"] {
@@ -72,14 +102,14 @@
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 12px;
+      gap: 10px;
     }
 
     .city-card {
       background: rgba(201,168,76,0.05);
       border: 1px solid rgba(201,168,76,0.12);
       border-radius: 12px;
-      padding: 16px 18px;
+      padding: 14px 16px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -92,24 +122,31 @@
     }
 
     .city-name {
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       font-weight: 600;
       color: #e0c070;
     }
 
     .city-count {
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       color: #c9a84c;
       font-weight: 700;
       background: rgba(201,168,76,0.12);
       padding: 2px 8px;
       border-radius: 20px;
+      white-space: nowrap;
     }
 
     .empty {
       color: #5a4030;
       margin-top: 40px;
       font-size: 0.9rem;
+    }
+
+    .loading {
+      color: #7a6040;
+      font-size: 0.9rem;
+      padding: 40px 0;
     }
 
     footer {
@@ -123,60 +160,101 @@
     footer a { color: #7a6040; text-decoration: none; }
     footer a:hover { color: #c9a84c; }
     footer .sep { margin: 0 10px; }
-
-    .loading {
-      color: #7a6040;
-      font-size: 0.9rem;
-      padding: 40px 0;
-    }
   </style>
 </head>
 <body>
 
   <header>
-    <a href="/">← HookahMap</a>
-    <h1>Şehirler</h1>
+    <div class="header-left">
+      <a class="back" href="/">← HookahMap</a>
+      <h1 id="page-title">Cities</h1>
+    </div>
+    <div class="lang-switch">
+      <button class="lang-btn active" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" onclick="setLang('tr')">TR</button>
+    </div>
   </header>
 
   <div class="container">
-    <div id="meta" class="meta">Yükleniyor...</div>
+    <div id="meta" class="meta">Loading...</div>
 
     <div class="search-wrap">
-      <input type="search" id="search" placeholder="Şehir ara..." oninput="filterCities(this.value)">
+      <input type="search" id="search" placeholder="Search city..." oninput="filterCities(this.value)">
     </div>
 
     <div id="grid" class="grid">
-      <div class="loading">Veriler yükleniyor...</div>
+      <div class="loading" id="loading-msg">Loading data...</div>
     </div>
-    <div id="empty" class="empty" style="display:none">Sonuç bulunamadı.</div>
+    <div id="empty" class="empty" style="display:none">No results found.</div>
   </div>
 
   <footer>
     <p>© 2026 HookahMap
       <span class="sep">·</span>
-      <a href="/privacy.html">Gizlilik Politikası</a>
+      <a href="/privacy.html" id="footer-privacy">Privacy Policy</a>
       <span class="sep">·</span>
-      <a href="mailto:support@hookahmap.app">İletişim</a>
+      <a href="mailto:support@hookahmap.app" id="footer-contact">Contact</a>
     </p>
   </footer>
 
   <script>
     let allCities = [];
+    let currentLang = 'en';
+    let statsData = null;
 
-    fetch('/stats.json')
-      .then(r => r.json())
-      .then(d => {
-        allCities = d.cities || [];
-        const updated = d.updated_at ? new Date(d.updated_at).toLocaleDateString('tr-TR') : '';
-        document.getElementById('meta').innerHTML =
-          `<strong>${d.total.toLocaleString('tr-TR')}</strong> mekan · <strong>${allCities.length}</strong> şehir` +
-          (updated ? ` · Son güncelleme: ${updated}` : '');
-        renderCities(allCities);
-      })
-      .catch(() => {
-        document.getElementById('meta').textContent = 'Veri yüklenemedi.';
-        document.getElementById('grid').innerHTML = '';
-      });
+    const i18n = {
+      en: {
+        pageTitle: 'Cities',
+        back: '← HookahMap',
+        searchPlaceholder: 'Search city...',
+        loading: 'Loading data...',
+        noResults: 'No results found.',
+        metaText: (total, cityCount, updated) =>
+          `<strong>${total.toLocaleString('en-US')}</strong> venues · <strong>${cityCount}</strong> cities` +
+          (updated ? ` · Last updated: ${updated}` : ''),
+        privacy: 'Privacy Policy',
+        contact: 'Contact',
+        venues: 'venues',
+      },
+      tr: {
+        pageTitle: 'Şehirler',
+        back: '← HookahMap',
+        searchPlaceholder: 'Şehir ara...',
+        loading: 'Veriler yükleniyor...',
+        noResults: 'Sonuç bulunamadı.',
+        metaText: (total, cityCount, updated) =>
+          `<strong>${total.toLocaleString('tr-TR')}</strong> mekan · <strong>${cityCount}</strong> şehir` +
+          (updated ? ` · Son güncelleme: ${updated}` : ''),
+        privacy: 'Gizlilik Politikası',
+        contact: 'İletişim',
+        venues: 'mekan',
+      }
+    };
+
+    function setLang(lang) {
+      currentLang = lang;
+      document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+      document.querySelector(`.lang-btn[onclick="setLang('${lang}')"]`).classList.add('active');
+
+      const t = i18n[lang];
+      document.getElementById('page-title').textContent = t.pageTitle;
+      document.querySelector('.back').textContent = t.back;
+      document.getElementById('search').placeholder = t.searchPlaceholder;
+      document.getElementById('empty').textContent = t.noResults;
+      document.getElementById('footer-privacy').textContent = t.privacy;
+      document.getElementById('footer-contact').textContent = t.contact;
+      document.documentElement.lang = lang;
+
+      if (statsData) {
+        const updated = statsData.updated_at
+          ? new Date(statsData.updated_at).toLocaleDateString(lang === 'tr' ? 'tr-TR' : 'en-US')
+          : '';
+        document.getElementById('meta').innerHTML = t.metaText(statsData.total, allCities.length, updated);
+      }
+
+      // Re-render with current filter
+      filterCities(document.getElementById('search').value);
+    }
 
     function renderCities(cities) {
       const grid = document.getElementById('grid');
@@ -197,13 +275,29 @@
 
     function filterCities(q) {
       const term = q.toLowerCase().trim();
-      if (!term) { renderCities(allCities); return; }
-      renderCities(allCities.filter(c => c.city && c.city.toLowerCase().includes(term)));
+      const filtered = term
+        ? allCities.filter(c => c.city && c.city.toLowerCase().includes(term))
+        : allCities;
+      renderCities(filtered);
     }
 
     function esc(s) {
       return (s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
     }
+
+    fetch('/stats.json')
+      .then(r => r.json())
+      .then(d => {
+        statsData = d;
+        allCities = d.cities || [];
+        document.getElementById('loading-msg') && (document.getElementById('loading-msg').remove());
+        setLang(currentLang);
+        renderCities(allCities);
+      })
+      .catch(() => {
+        document.getElementById('meta').textContent = 'Could not load data.';
+        document.getElementById('grid').innerHTML = '';
+      });
   </script>
 
 </body>

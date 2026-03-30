@@ -168,18 +168,28 @@
   </div>
 
   <div class="section">
-    <h2>13.279+ Mekan</h2>
+    <h2 id="stat-total">13.279+ Mekan</h2>
     <p>Türkiye ve dünyadan binlerce nargile mekanı. Sürekli güncellenen veritabanı ile her zaman en güncel bilgiye ulaş.</p>
+    <p style="margin-top:16px"><a href="/cities.html" style="color:#c9a84c;text-decoration:none;font-weight:600">Şehirlere göre listele →</a></p>
   </div>
 
   <footer>
     <p>© 2026 HookahMap
+      <span class="sep">·</span>
+      <a href="/cities.html">Şehirler</a>
       <span class="sep">·</span>
       <a href="/privacy.html">Gizlilik Politikası</a>
       <span class="sep">·</span>
       <a href="mailto:support@hookahmap.app">İletişim</a>
     </p>
   </footer>
+
+  <script>
+    fetch('/stats.json').then(r => r.json()).then(d => {
+      const el = document.getElementById('stat-total');
+      if (el && d.total) el.textContent = d.total.toLocaleString('tr-TR') + '+ Mekan';
+    }).catch(() => {});
+  </script>
 
 </body>
 </html>

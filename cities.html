@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Şehirler — HookahMap</title>
+  <meta name="description" content="HookahMap'te hangi şehirde kaç nargile mekanı var?">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #0f0700;
+      color: #fff;
+      min-height: 100vh;
+    }
+
+    header {
+      background: #080300;
+      padding: 20px 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      border-bottom: 1px solid rgba(201,168,76,0.12);
+    }
+
+    header a {
+      color: #7a6040;
+      text-decoration: none;
+      font-size: 0.9rem;
+    }
+    header a:hover { color: #c9a84c; }
+
+    header h1 {
+      font-size: 1.4rem;
+      color: #c9a84c;
+      font-weight: 700;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    .meta {
+      color: #7a6040;
+      font-size: 0.85rem;
+      margin-bottom: 32px;
+    }
+
+    .meta strong { color: #c9a84c; }
+
+    .search-wrap {
+      margin-bottom: 28px;
+    }
+
+    input[type="search"] {
+      width: 100%;
+      max-width: 400px;
+      padding: 10px 16px;
+      background: rgba(201,168,76,0.07);
+      border: 1px solid rgba(201,168,76,0.2);
+      border-radius: 10px;
+      color: #fff;
+      font-size: 0.95rem;
+      outline: none;
+    }
+    input[type="search"]::placeholder { color: #5a4030; }
+    input[type="search"]:focus { border-color: rgba(201,168,76,0.5); }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 12px;
+    }
+
+    .city-card {
+      background: rgba(201,168,76,0.05);
+      border: 1px solid rgba(201,168,76,0.12);
+      border-radius: 12px;
+      padding: 16px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .city-card:hover {
+      border-color: rgba(201,168,76,0.35);
+      background: rgba(201,168,76,0.09);
+    }
+
+    .city-name {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #e0c070;
+    }
+
+    .city-count {
+      font-size: 0.85rem;
+      color: #c9a84c;
+      font-weight: 700;
+      background: rgba(201,168,76,0.12);
+      padding: 2px 8px;
+      border-radius: 20px;
+    }
+
+    .empty {
+      color: #5a4030;
+      margin-top: 40px;
+      font-size: 0.9rem;
+    }
+
+    footer {
+      background: #080300;
+      padding: 24px 20px;
+      text-align: center;
+      color: #4a3820;
+      font-size: 0.82rem;
+      margin-top: 60px;
+    }
+    footer a { color: #7a6040; text-decoration: none; }
+    footer a:hover { color: #c9a84c; }
+    footer .sep { margin: 0 10px; }
+
+    .loading {
+      color: #7a6040;
+      font-size: 0.9rem;
+      padding: 40px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="/">← HookahMap</a>
+    <h1>Şehirler</h1>
+  </header>
+
+  <div class="container">
+    <div id="meta" class="meta">Yükleniyor...</div>
+
+    <div class="search-wrap">
+      <input type="search" id="search" placeholder="Şehir ara..." oninput="filterCities(this.value)">
+    </div>
+
+    <div id="grid" class="grid">
+      <div class="loading">Veriler yükleniyor...</div>
+    </div>
+    <div id="empty" class="empty" style="display:none">Sonuç bulunamadı.</div>
+  </div>
+
+  <footer>
+    <p>© 2026 HookahMap
+      <span class="sep">·</span>
+      <a href="/privacy.html">Gizlilik Politikası</a>
+      <span class="sep">·</span>
+      <a href="mailto:support@hookahmap.app">İletişim</a>
+    </p>
+  </footer>
+
+  <script>
+    let allCities = [];
+
+    fetch('/stats.json')
+      .then(r => r.json())
+      .then(d => {
+        allCities = d.cities || [];
+        const updated = d.updated_at ? new Date(d.updated_at).toLocaleDateString('tr-TR') : '';
+        document.getElementById('meta').innerHTML =
+          `<strong>${d.total.toLocaleString('tr-TR')}</strong> mekan · <strong>${allCities.length}</strong> şehir` +
+          (updated ? ` · Son güncelleme: ${updated}` : '');
+        renderCities(allCities);
+      })
+      .catch(() => {
+        document.getElementById('meta').textContent = 'Veri yüklenemedi.';
+        document.getElementById('grid').innerHTML = '';
+      });
+
+    function renderCities(cities) {
+      const grid = document.getElementById('grid');
+      const empty = document.getElementById('empty');
+      if (!cities.length) {
+        grid.innerHTML = '';
+        empty.style.display = 'block';
+        return;
+      }
+      empty.style.display = 'none';
+      grid.innerHTML = cities.map(c => `
+        <div class="city-card">
+          <span class="city-name">${esc(c.city)}</span>
+          <span class="city-count">${c.count}</span>
+        </div>
+      `).join('');
+    }
+
+    function filterCities(q) {
+      const term = q.toLowerCase().trim();
+      if (!term) { renderCities(allCities); return; }
+      renderCities(allCities.filter(c => c.city && c.city.toLowerCase().includes(term)));
+    }
+
+    function esc(s) {
+      return (s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    }
+  </script>
+
+</body>
+</html>

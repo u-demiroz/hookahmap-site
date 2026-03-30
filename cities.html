@@ -280,6 +280,64 @@
     const SUPABASE_URL = 'https://mydigyickwdbobcvifty.supabase.co';
     const SUPABASE_ANON_KEY = 'sb_publishable_tgnNXJwooPJiQ8tc7OdBKQ_Q3a4EWE0';
 
+    // İngilizce canonical → Türkçe karşılık
+    const TR_NAMES = {
+      "Istanbul": "İstanbul", "Izmir": "İzmir", "Ankara": "Ankara",
+      "Antalya": "Antalya", "Bursa": "Bursa", "Konya": "Konya",
+      "Gaziantep": "Gaziantep", "Mersin": "Mersin", "Eskişehir": "Eskişehir",
+      "Kayseri": "Kayseri", "Trabzon": "Trabzon", "Samsun": "Samsun",
+      "Sakarya": "Sakarya", "Hatay": "Hatay", "Malatya": "Malatya",
+      "Nevşehir": "Nevşehir", "Bodrum": "Bodrum", "Alanya": "Alanya",
+      "Moscow": "Moskova", "Saint Petersburg": "St. Petersburg",
+      "Yekaterinburg": "Yekaterinburg", "Novosibirsk": "Novosibirsk",
+      "Kazan": "Kazan", "Kyiv": "Kyiv", "Kharkiv": "Kharkiv",
+      "Minsk": "Minsk", "Almaty": "Almatı", "Astana": "Astana",
+      "Tashkent": "Taşkent",
+      "Dubai": "Dubai", "Abu Dhabi": "Abu Dabi", "Riyadh": "Riyad",
+      "Jeddah": "Cidde", "Mecca": "Mekke", "Medina": "Medine",
+      "Doha": "Doha", "Kuwait City": "Kuveyt", "Manama": "Manama",
+      "Cairo": "Kahire", "Alexandria": "İskenderiye",
+      "Hurghada": "Hurgada", "Sharm El-Sheikh": "Şarm El-Şeyh",
+      "Beirut": "Beyrut", "Amman": "Amman", "Baghdad": "Bağdat",
+      "Tunis": "Tunus", "Casablanca": "Kazablanka",
+      "Marrakech": "Marakeş", "Algiers": "Cezayir",
+      "Athens": "Atina", "Thessaloniki": "Selanik",
+      "Nicosia": "Lefkoşa", "Limassol": "Limasol",
+      "Belgrade": "Belgrad", "Sofia": "Sofya", "Bucharest": "Bükreş",
+      "Prague": "Prag", "Warsaw": "Varşova", "Budapest": "Budapeşte",
+      "Vienna": "Viyana", "Zurich": "Zürih", "Geneva": "Cenevre",
+      "Munich": "Münih", "Cologne": "Köln", "Frankfurt": "Frankfurt",
+      "Düsseldorf": "Düsseldorf", "Hamburg": "Hamburg", "Berlin": "Berlin",
+      "Stuttgart": "Stuttgart", "Hanover": "Hannover",
+      "Paris": "Paris", "Lyon": "Lyon", "Marseille": "Marsilya",
+      "Nice": "Nis", "Toulouse": "Toulouse", "Lille": "Lille",
+      "London": "Londra", "Manchester": "Manchester", "Birmingham": "Birmingham",
+      "Glasgow": "Glasgow", "Edinburgh": "Edinburgh", "Leeds": "Leeds",
+      "Rome": "Roma", "Milan": "Milano", "Naples": "Napoli",
+      "Florence": "Floransa", "Venice": "Venedik", "Turin": "Torino",
+      "Madrid": "Madrid", "Barcelona": "Barselona", "Seville": "Sevilla",
+      "Valencia": "Valensiya", "Malaga": "Malaga",
+      "Lisbon": "Lizbon", "Porto": "Porto",
+      "Amsterdam": "Amsterdam", "Rotterdam": "Rotterdam",
+      "Brussels": "Brüksel", "Ghent": "Gent", "Antwerp": "Antwerp",
+      "Stockholm": "Stokholm", "Oslo": "Oslo", "Copenhagen": "Kopenhag",
+      "Helsinki": "Helsinki", "Riga": "Riga", "Tallinn": "Tallinn",
+      "Vilnius": "Vilnius", "Ljubljana": "Ljubljana",
+      "Tbilisi": "Tiflis", "Batumi": "Batum", "Yerevan": "Erivan",
+      "Osaka": "Osaka", "Fukuoka": "Fukuoka", "Sapporo": "Sapporo",
+      "Nagoya": "Nagoya", "Kyoto": "Kyoto", "Yokohama": "Yokohama",
+      "Singapore": "Singapur", "Kuala Lumpur": "Kuala Lumpur",
+      "Bangkok": "Bangkok", "Phuket": "Phuket", "Chiang Mai": "Chiang Mai",
+      "Ho Chi Minh City": "Ho Chi Minh", "Hanoi": "Hanoi", "Da Nang": "Da Nang",
+      "Phnom Penh": "Phnom Penh", "Yangon": "Yangon",
+      "Sydney": "Sidney", "Melbourne": "Melbourne",
+      "Toronto": "Toronto", "Montreal": "Montreal", "Vancouver": "Vancouver",
+      "New York": "New York", "Los Angeles": "Los Angeles",
+      "Chicago": "Chicago", "Houston": "Houston", "Miami": "Miami",
+      "Cairo": "Kahire", "Nairobi": "Nairobi",
+      "Tel Aviv": "Tel Aviv",
+    };
+
     let allCities = [];
     let currentLang = 'en';
     let statsData = null;
@@ -356,6 +414,12 @@
       filterCities(document.getElementById('search').value);
     }
 
+
+    function displayName(city) {
+      if (currentLang === 'tr' && TR_NAMES[city]) return TR_NAMES[city];
+      return city;
+    }
+
     function renderCities(cities) {
       const grid = document.getElementById('grid');
       const empty = document.getElementById('empty');
@@ -367,7 +431,7 @@
       empty.style.display = 'none';
       grid.innerHTML = cities.map(c => `
         <div class="city-card">
-          <span class="city-name">${esc(c.city)}</span>
+          <span class="city-name">${esc(displayName(c.city))}</span>
           <span class="city-count">${c.count}</span>
         </div>
       `).join('');
@@ -375,7 +439,12 @@
 
     function filterCities(q) {
       const term = q.toLowerCase().trim();
-      renderCities(term ? allCities.filter(c => c.city && c.city.toLowerCase().includes(term)) : allCities);
+      if (!term) { renderCities(allCities); return; }
+      renderCities(allCities.filter(c => {
+        const en = (c.city || '').toLowerCase();
+        const tr = (TR_NAMES[c.city] || '').toLowerCase();
+        return en.includes(term) || tr.includes(term);
+      }));
     }
 
     function esc(s) {

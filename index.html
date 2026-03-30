@@ -136,6 +136,21 @@
       font-size: 1rem;
     }
 
+    /* Review cards */
+    .review-card {
+      background: rgba(201,168,76,0.06);
+      border: 1px solid rgba(201,168,76,0.15);
+      border-radius: 16px;
+      padding: 20px 22px;
+      text-align: left;
+      width: 260px;
+      flex-shrink: 0;
+    }
+    .review-stars { color: #c9a84c; font-size: 1rem; margin-bottom: 8px; letter-spacing: 1px; }
+    .review-title { font-size: 0.9rem; font-weight: 700; color: #e0c070; margin-bottom: 8px; }
+    .review-body { font-size: 0.82rem; color: #8a7050; line-height: 1.5; margin-bottom: 12px; }
+    .review-meta { font-size: 0.75rem; color: #5a4030; }
+
     /* Footer */
     footer {
       background: #080300;
@@ -182,6 +197,11 @@
         <div class="desc" id="f3-desc">Save the places you love for later</div>
       </div>
     </div>
+  </div>
+
+  <div class="section" id="reviews-section" style="display:none">
+    <h2 id="reviews-title">What users say</h2>
+    <div id="reviews-grid" style="display:flex;gap:16px;flex-wrap:wrap;justify-content:center;max-width:860px;margin:0 auto;margin-top:32px"></div>
   </div>
 
   <div class="section">
@@ -254,12 +274,44 @@
       document.getElementById('footer-privacy').textContent = t.footerPrivacy;
       document.getElementById('footer-contact').textContent = t.footerContact;
       if (currentTotal) document.getElementById('stat-total').textContent = t.statSuffix(currentTotal);
+      updateReviewsTitle();
     }
 
     fetch('/stats.json').then(r => r.json()).then(d => {
       currentTotal = d.total;
       document.getElementById('stat-total').textContent = i18n[currentLang].statSuffix(d.total);
     }).catch(() => {});
+
+    // Reviews
+    fetch('/reviews.json').then(r => r.json()).then(d => {
+      if (!d.reviews || d.reviews.length === 0) return;
+      document.getElementById('reviews-section').style.display = 'block';
+      const grid = document.getElementById('reviews-grid');
+      // Max 6 yorum göster
+      grid.innerHTML = d.reviews.slice(0, 6).map(r => {
+        const stars = '★'.repeat(r.rating) + '☆'.repeat(5 - r.rating);
+        const body = r.content.length > 160 ? r.content.slice(0, 157) + '…' : r.content;
+        const date = r.date ? new Date(r.date).toLocaleDateString('en-US', {month:'short', year:'numeric'}) : '';
+        return `<div class="review-card">
+          <div class="review-stars">${stars}</div>
+          <div class="review-title">${esc(r.title)}</div>
+          <div class="review-body">${esc(body)}</div>
+          <div class="review-meta">${esc(r.author)}${date ? ' · ' + date : ''}${r.store ? ' · ' + r.store : ''}</div>
+        </div>`;
+      }).join('');
+
+      // Başlığı dile göre güncelle
+      updateReviewsTitle();
+    }).catch(() => {});
+
+    function updateReviewsTitle() {
+      const el = document.getElementById('reviews-title');
+      if (el) el.textContent = currentLang === 'tr' ? 'Kullanıcılar ne diyor' : 'What users say';
+    }
+
+    function esc(s) {
+      return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    }
   </script>
 
 </body>

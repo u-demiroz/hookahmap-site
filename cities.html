@@ -24,31 +24,13 @@
       border-bottom: 1px solid rgba(201,168,76,0.12);
     }
 
-    .header-left {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
+    .header-left { display: flex; align-items: center; gap: 16px; }
 
-    header a.back {
-      color: #7a6040;
-      text-decoration: none;
-      font-size: 0.9rem;
-    }
+    header a.back { color: #7a6040; text-decoration: none; font-size: 0.9rem; }
     header a.back:hover { color: #c9a84c; }
+    header h1 { font-size: 1.4rem; color: #c9a84c; font-weight: 700; }
 
-    header h1 {
-      font-size: 1.4rem;
-      color: #c9a84c;
-      font-weight: 700;
-    }
-
-    /* Language switcher */
-    .lang-switch {
-      display: flex;
-      gap: 6px;
-    }
-
+    .lang-switch { display: flex; gap: 6px; }
     .lang-btn {
       background: none;
       border: 1px solid rgba(201,168,76,0.25);
@@ -60,34 +42,29 @@
       cursor: pointer;
       transition: all 0.15s;
     }
-
     .lang-btn:hover, .lang-btn.active {
       background: rgba(201,168,76,0.12);
       border-color: rgba(201,168,76,0.5);
       color: #c9a84c;
     }
 
-    .container {
-      max-width: 960px;
-      margin: 0 auto;
-      padding: 36px 20px;
-    }
+    .container { max-width: 960px; margin: 0 auto; padding: 36px 20px; }
 
-    .meta {
-      color: #7a6040;
-      font-size: 0.85rem;
-      margin-bottom: 28px;
-    }
-
+    .meta { color: #7a6040; font-size: 0.85rem; margin-bottom: 28px; }
     .meta strong { color: #c9a84c; }
 
-    .search-wrap {
+    .top-bar {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
       margin-bottom: 24px;
     }
 
     input[type="search"] {
-      width: 100%;
-      max-width: 400px;
+      flex: 1;
+      min-width: 200px;
+      max-width: 380px;
       padding: 10px 16px;
       background: rgba(201,168,76,0.07);
       border: 1px solid rgba(201,168,76,0.2);
@@ -99,6 +76,99 @@
     input[type="search"]::placeholder { color: #5a4030; }
     input[type="search"]:focus { border-color: rgba(201,168,76,0.5); }
 
+    /* Add city button */
+    .add-btn {
+      background: rgba(201,168,76,0.1);
+      border: 1px solid rgba(201,168,76,0.3);
+      border-radius: 10px;
+      color: #c9a84c;
+      font-size: 0.9rem;
+      font-weight: 600;
+      padding: 10px 18px;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .add-btn:hover {
+      background: rgba(201,168,76,0.18);
+      border-color: rgba(201,168,76,0.6);
+    }
+
+    /* Modal */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.7);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .modal-overlay.open { display: flex; }
+
+    .modal {
+      background: #1a0e00;
+      border: 1px solid rgba(201,168,76,0.2);
+      border-radius: 20px;
+      padding: 32px;
+      width: 100%;
+      max-width: 420px;
+    }
+
+    .modal h2 { color: #c9a84c; font-size: 1.3rem; margin-bottom: 8px; }
+    .modal p { color: #7a6040; font-size: 0.85rem; margin-bottom: 24px; line-height: 1.5; }
+
+    .modal input[type="text"] {
+      width: 100%;
+      padding: 12px 16px;
+      background: rgba(201,168,76,0.07);
+      border: 1px solid rgba(201,168,76,0.2);
+      border-radius: 10px;
+      color: #fff;
+      font-size: 1rem;
+      outline: none;
+      margin-bottom: 16px;
+    }
+    .modal input[type="text"]:focus { border-color: rgba(201,168,76,0.5); }
+    .modal input[type="text"]::placeholder { color: #5a4030; }
+
+    .modal-actions { display: flex; gap: 10px; justify-content: flex-end; }
+
+    .btn-cancel {
+      background: none;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 10px;
+      color: #7a6040;
+      font-size: 0.9rem;
+      padding: 10px 18px;
+      cursor: pointer;
+    }
+    .btn-cancel:hover { border-color: rgba(255,255,255,0.2); color: #aaa; }
+
+    .btn-submit {
+      background: rgba(201,168,76,0.15);
+      border: 1px solid rgba(201,168,76,0.4);
+      border-radius: 10px;
+      color: #c9a84c;
+      font-size: 0.9rem;
+      font-weight: 600;
+      padding: 10px 20px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-submit:hover { background: rgba(201,168,76,0.25); }
+    .btn-submit:disabled { opacity: 0.5; cursor: default; }
+
+    .modal-success {
+      display: none;
+      text-align: center;
+      padding: 12px 0 0;
+    }
+    .modal-success .icon { font-size: 2.5rem; margin-bottom: 10px; }
+    .modal-success p { color: #a89060; font-size: 0.9rem; margin-bottom: 0; }
+
+    /* Grid */
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -115,18 +185,12 @@
       align-items: center;
       transition: border-color 0.2s, background 0.2s;
     }
-
     .city-card:hover {
       border-color: rgba(201,168,76,0.35);
       background: rgba(201,168,76,0.09);
     }
 
-    .city-name {
-      font-size: 0.88rem;
-      font-weight: 600;
-      color: #e0c070;
-    }
-
+    .city-name { font-size: 0.88rem; font-weight: 600; color: #e0c070; }
     .city-count {
       font-size: 0.82rem;
       color: #c9a84c;
@@ -137,17 +201,8 @@
       white-space: nowrap;
     }
 
-    .empty {
-      color: #5a4030;
-      margin-top: 40px;
-      font-size: 0.9rem;
-    }
-
-    .loading {
-      color: #7a6040;
-      font-size: 0.9rem;
-      padding: 40px 0;
-    }
+    .empty { color: #5a4030; margin-top: 40px; font-size: 0.9rem; }
+    .loading { color: #7a6040; font-size: 0.9rem; padding: 40px 0; }
 
     footer {
       background: #080300;
@@ -178,8 +233,9 @@
   <div class="container">
     <div id="meta" class="meta">Loading...</div>
 
-    <div class="search-wrap">
+    <div class="top-bar">
       <input type="search" id="search" placeholder="Search city..." oninput="filterCities(this.value)">
+      <button class="add-btn" id="add-btn" onclick="openModal()">+ <span id="add-btn-text">Add your city</span></button>
     </div>
 
     <div id="grid" class="grid">
@@ -197,7 +253,33 @@
     </p>
   </footer>
 
+  <!-- Add City Modal -->
+  <div class="modal-overlay" id="modal" onclick="handleOverlayClick(event)">
+    <div class="modal">
+      <h2 id="modal-title">Add your city</h2>
+      <p id="modal-desc">Don't see your city? Request it and we'll add it to the next search round.</p>
+
+      <div id="modal-form">
+        <input type="text" id="city-input" placeholder="e.g. Trabzon" maxlength="100" autocomplete="off">
+        <div class="modal-actions">
+          <button class="btn-cancel" id="btn-cancel" onclick="closeModal()">Cancel</button>
+          <button class="btn-submit" id="btn-submit" onclick="submitCity()">
+            <span id="submit-text">Submit</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="modal-success" id="modal-success">
+        <div class="icon">🎯</div>
+        <p id="success-msg">Got it! We'll search your city in tomorrow's scan.</p>
+      </div>
+    </div>
+  </div>
+
   <script>
+    const SUPABASE_URL = 'https://mydigyickwdbobcvifty.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_tgnNXJwooPJiQ8tc7OdBKQ_Q3a4EWE0';
+
     let allCities = [];
     let currentLang = 'en';
     let statsData = null;
@@ -212,9 +294,16 @@
         metaText: (total, cityCount, updated) =>
           `<strong>${total.toLocaleString('en-US')}</strong> venues · <strong>${cityCount}</strong> cities` +
           (updated ? ` · Last updated: ${updated}` : ''),
+        addBtn: 'Add your city',
+        modalTitle: 'Add your city',
+        modalDesc: "Don't see your city? Request it and we'll add it to the next search round.",
+        inputPlaceholder: 'e.g. Trabzon',
+        cancel: 'Cancel',
+        submit: 'Submit',
+        submitting: 'Sending...',
+        successMsg: "Got it! We'll search your city in tomorrow's scan.",
         privacy: 'Privacy Policy',
         contact: 'Contact',
-        venues: 'venues',
       },
       tr: {
         pageTitle: 'Şehirler',
@@ -225,9 +314,16 @@
         metaText: (total, cityCount, updated) =>
           `<strong>${total.toLocaleString('tr-TR')}</strong> mekan · <strong>${cityCount}</strong> şehir` +
           (updated ? ` · Son güncelleme: ${updated}` : ''),
+        addBtn: 'Şehrini ekle',
+        modalTitle: 'Şehrini ekle',
+        modalDesc: 'Şehrini listede göremiyorsan ekle, yarınki aramaya dahil edelim.',
+        inputPlaceholder: 'ör. Trabzon',
+        cancel: 'İptal',
+        submit: 'Gönder',
+        submitting: 'Gönderiliyor...',
+        successMsg: 'Aldık! Şehrin yarınki aramaya dahil edilecek.',
         privacy: 'Gizlilik Politikası',
         contact: 'İletişim',
-        venues: 'mekan',
       }
     };
 
@@ -235,12 +331,18 @@
       currentLang = lang;
       document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
       document.querySelector(`.lang-btn[onclick="setLang('${lang}')"]`).classList.add('active');
-
       const t = i18n[lang];
       document.getElementById('page-title').textContent = t.pageTitle;
       document.querySelector('.back').textContent = t.back;
       document.getElementById('search').placeholder = t.searchPlaceholder;
       document.getElementById('empty').textContent = t.noResults;
+      document.getElementById('add-btn-text').textContent = t.addBtn;
+      document.getElementById('modal-title').textContent = t.modalTitle;
+      document.getElementById('modal-desc').textContent = t.modalDesc;
+      document.getElementById('city-input').placeholder = t.inputPlaceholder;
+      document.getElementById('btn-cancel').textContent = t.cancel;
+      document.getElementById('submit-text').textContent = t.submit;
+      document.getElementById('success-msg').textContent = t.successMsg;
       document.getElementById('footer-privacy').textContent = t.privacy;
       document.getElementById('footer-contact').textContent = t.contact;
       document.documentElement.lang = lang;
@@ -251,8 +353,6 @@
           : '';
         document.getElementById('meta').innerHTML = t.metaText(statsData.total, allCities.length, updated);
       }
-
-      // Re-render with current filter
       filterCities(document.getElementById('search').value);
     }
 
@@ -275,22 +375,81 @@
 
     function filterCities(q) {
       const term = q.toLowerCase().trim();
-      const filtered = term
-        ? allCities.filter(c => c.city && c.city.toLowerCase().includes(term))
-        : allCities;
-      renderCities(filtered);
+      renderCities(term ? allCities.filter(c => c.city && c.city.toLowerCase().includes(term)) : allCities);
     }
 
     function esc(s) {
       return (s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
     }
 
+    // Modal
+    function openModal() {
+      document.getElementById('modal').classList.add('open');
+      document.getElementById('modal-form').style.display = 'block';
+      document.getElementById('modal-success').style.display = 'none';
+      document.getElementById('city-input').value = '';
+      document.getElementById('btn-submit').disabled = false;
+      document.getElementById('submit-text').textContent = i18n[currentLang].submit;
+      setTimeout(() => document.getElementById('city-input').focus(), 100);
+    }
+
+    function closeModal() {
+      document.getElementById('modal').classList.remove('open');
+    }
+
+    function handleOverlayClick(e) {
+      if (e.target === document.getElementById('modal')) closeModal();
+    }
+
+    async function submitCity() {
+      const input = document.getElementById('city-input');
+      const cityName = input.value.trim();
+      if (!cityName) { input.focus(); return; }
+
+      const btn = document.getElementById('btn-submit');
+      btn.disabled = true;
+      document.getElementById('submit-text').textContent = i18n[currentLang].submitting;
+
+      try {
+        const res = await fetch(`${SUPABASE_URL}/rest/v1/city_requests`, {
+          method: 'POST',
+          headers: {
+            'apikey': SUPABASE_ANON_KEY,
+            'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+            'Content-Type': 'application/json',
+            'Prefer': 'return=minimal'
+          },
+          body: JSON.stringify({ city_name: cityName })
+        });
+
+        if (res.ok || res.status === 201) {
+          document.getElementById('modal-form').style.display = 'none';
+          document.getElementById('modal-success').style.display = 'block';
+          setTimeout(closeModal, 2800);
+        } else {
+          throw new Error('Submit failed');
+        }
+      } catch (e) {
+        btn.disabled = false;
+        document.getElementById('submit-text').textContent = i18n[currentLang].submit;
+        input.style.borderColor = 'rgba(255,80,80,0.5)';
+        setTimeout(() => input.style.borderColor = '', 1500);
+      }
+    }
+
+    // Enter key support
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeModal();
+    });
+
+    // Load data
     fetch('/stats.json')
       .then(r => r.json())
       .then(d => {
         statsData = d;
         allCities = d.cities || [];
-        document.getElementById('loading-msg') && (document.getElementById('loading-msg').remove());
+        const lm = document.getElementById('loading-msg');
+        if (lm) lm.remove();
         setLang(currentLang);
         renderCities(allCities);
       })

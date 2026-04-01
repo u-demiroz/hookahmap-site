@@ -238,7 +238,7 @@
     </div>
   </div>
 
-  <div class="section" id="reviews-section" style="display:none">
+  <div class="section" id="reviews-section" style="display:block">
     <p style="font-size:0.75rem;font-weight:700;letter-spacing:3px;color:#7a6040;text-transform:uppercase;margin-bottom:10px">App Store Reviews</p>
     <h2 id="reviews-title">What users say</h2>
     <div id="reviews-grid" style="display:flex;gap:16px;flex-wrap:wrap;justify-content:center;max-width:860px;margin:0 auto;margin-top:32px"></div>
@@ -325,7 +325,6 @@
     // Reviews
     fetch('/reviews.json').then(r => r.json()).then(d => {
       if (!d.reviews || d.reviews.length === 0) return;
-      document.getElementById('reviews-section').style.display = 'block';
       const grid = document.getElementById('reviews-grid');
       // Max 6 yorum göster
       grid.innerHTML = d.reviews.slice(0, 6).map(r => {

@@ -138,18 +138,57 @@
 
     /* Review cards */
     .review-card {
-      background: rgba(201,168,76,0.06);
-      border: 1px solid rgba(201,168,76,0.15);
-      border-radius: 16px;
-      padding: 20px 22px;
+      background: linear-gradient(145deg, rgba(201,168,76,0.09) 0%, rgba(201,168,76,0.03) 100%);
+      border: 1px solid rgba(201,168,76,0.2);
+      border-radius: 20px;
+      padding: 22px 24px;
       text-align: left;
-      width: 260px;
+      width: 270px;
+      flex-shrink: 0;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .review-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 40px rgba(201,168,76,0.12);
+    }
+    .review-card::before {
+      content: '"';
+      position: absolute;
+      top: -10px;
+      right: 16px;
+      font-size: 6rem;
+      color: rgba(201,168,76,0.07);
+      font-family: Georgia, serif;
+      line-height: 1;
+      pointer-events: none;
+    }
+    .review-stars { color: #c9a84c; font-size: 0.95rem; margin-bottom: 10px; letter-spacing: 2px; }
+    .review-title { font-size: 0.95rem; font-weight: 700; color: #e8d090; margin-bottom: 10px; line-height: 1.3; }
+    .review-body { font-size: 0.83rem; color: #9a8060; line-height: 1.6; margin-bottom: 14px; }
+    .review-meta {
+      font-size: 0.75rem;
+      color: #6a5040;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .review-avatar {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: rgba(201,168,76,0.2);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: #c9a84c;
       flex-shrink: 0;
     }
-    .review-stars { color: #c9a84c; font-size: 1rem; margin-bottom: 8px; letter-spacing: 1px; }
-    .review-title { font-size: 0.9rem; font-weight: 700; color: #e0c070; margin-bottom: 8px; }
-    .review-body { font-size: 0.82rem; color: #8a7050; line-height: 1.5; margin-bottom: 12px; }
-    .review-meta { font-size: 0.75rem; color: #5a4030; }
+    .review-author { color: #8a7050; font-weight: 600; }
+    .review-date { color: #5a4030; }
 
     /* Footer */
     footer {
@@ -290,13 +329,19 @@
       // Max 6 yorum göster
       grid.innerHTML = d.reviews.slice(0, 6).map(r => {
         const stars = '★'.repeat(r.rating) + '☆'.repeat(5 - r.rating);
-        const body = r.content.length > 160 ? r.content.slice(0, 157) + '…' : r.content;
-        const date = r.date ? new Date(r.date).toLocaleDateString('en-US', {month:'short', year:'numeric'}) : '';
+        const body = (r.body || '');
+        const bodyShort = body.length > 160 ? body.slice(0, 157) + '…' : body;
+        const date = r.updated ? new Date(r.updated).toLocaleDateString('en-US', {month:'short', year:'numeric'}) : '';
+        const initials = (r.author || '?').slice(0,1).toUpperCase();
         return `<div class="review-card">
           <div class="review-stars">${stars}</div>
           <div class="review-title">${esc(r.title)}</div>
-          <div class="review-body">${esc(body)}</div>
-          <div class="review-meta">${esc(r.author)}${date ? ' · ' + date : ''}${r.store ? ' · ' + r.store : ''}</div>
+          <div class="review-body">${esc(bodyShort)}</div>
+          <div class="review-meta">
+            <span class="review-avatar">${initials}</span>
+            <span class="review-author">${esc(r.author)}</span>
+            ${date ? `<span class="review-date">· ${date}</span>` : ''}
+          </div>
         </div>`;
       }).join('');
 

@@ -223,6 +223,8 @@
   <div class="lang-bar">
     <button class="lang-btn active" onclick="setLang('en')">EN</button>
     <button class="lang-btn" onclick="setLang('tr')">TR</button>
+    <button class="lang-btn" onclick="setLang('es')">ES</button>
+    <button class="lang-btn" onclick="setLang('ru')">RU</button>
   </div>
 
   <div class="hero">
@@ -316,6 +318,34 @@
         footerPrivacy: 'Gizlilik Politikası',
         footerContact: 'İletişim',
         statSuffix: n => n.toLocaleString('tr-TR') + '+ Mekan',
+      },
+      es: {
+        tagline: 'Descubre los mejores locales de hookah y shisha cerca de ti — en cualquier parte del mundo.',
+        badgeAlt: 'Descargar en el App Store',
+        playAlt: 'Disponible en Google Play',
+        f1Title: 'Explorar',  f1Desc: 'Encuentra los locales más cercanos según tu ubicación',
+        f2Title: 'Valorar',   f2Desc: 'Deja reseñas, puntúa y completa encuestas',
+        f3Title: 'Favoritos', f3Desc: 'Guarda los lugares que más te gustan',
+        statDesc: 'Miles de locales de hookah de Turquía y de todo el mundo. Nuestra base de datos se actualiza a diario.',
+        citiesLink: 'Explorar por ciudad →',
+        footerCities: 'Ciudades',
+        footerPrivacy: 'Política de privacidad',
+        footerContact: 'Contacto',
+        statSuffix: n => n.toLocaleString('es-ES') + '+ Locales',
+      },
+      ru: {
+        tagline: 'Найди лучшие кальянные рядом с тобой — в любой точке мира.',
+        badgeAlt: 'Загрузить в App Store',
+        playAlt: 'Доступно в Google Play',
+        f1Title: 'Исследуй',  f1Desc: 'Найди ближайшие кальянные по твоему местоположению',
+        f2Title: 'Оценивай',  f2Desc: 'Оставляй отзывы, ставь оценки, заполняй анкеты',
+        f3Title: 'Избранное', f3Desc: 'Сохраняй любимые места на потом',
+        statDesc: 'Тысячи кальянных из Турции и со всего мира. База данных обновляется ежедневно.',
+        citiesLink: 'По городам →',
+        footerCities: 'Города',
+        footerPrivacy: 'Политика конфиденциальности',
+        footerContact: 'Контакты',
+        statSuffix: n => n.toLocaleString('ru-RU') + '+ Заведений',
       }
     };
 
@@ -391,7 +421,9 @@
 
     function updateReviewsTitle() {
       const el = document.getElementById('reviews-title');
-      if (el) el.textContent = currentLang === 'tr' ? 'Kullanıcılar ne diyor' : 'What users say';
+      if (!el) return;
+      const titles = { en: 'What users say', tr: 'Kullanıcılar ne diyor', es: 'Lo que dicen los usuarios', ru: 'Что говорят пользователи' };
+      el.textContent = titles[currentLang] || titles.en;
     }
 
     function esc(s) {

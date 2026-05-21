@@ -10,13 +10,13 @@
 
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background: #0f0700;
-      color: #fff;
+      background: #F5EFE6;
+      color: #2C1A0E;
       min-height: 100vh;
     }
 
     header {
-      background: #080300;
+      background: #E5DDD4;
       padding: 16px 24px;
       display: flex;
       align-items: center;
@@ -26,16 +26,16 @@
 
     .header-left { display: flex; align-items: center; gap: 16px; }
 
-    header a.back { color: #7a6040; text-decoration: none; font-size: 0.9rem; }
-    header a.back:hover { color: #c9a84c; }
-    header h1 { font-size: 1.4rem; color: #c9a84c; font-weight: 700; }
+    header a.back { color: #9B7B5B; text-decoration: none; font-size: 0.9rem; }
+    header a.back:hover { color: #8B5E3C; }
+    header h1 { font-size: 1.4rem; color: #8B5E3C; font-weight: 700; }
 
     .lang-switch { display: flex; gap: 6px; }
     .lang-btn {
       background: none;
       border: 1px solid rgba(201,168,76,0.25);
       border-radius: 8px;
-      color: #7a6040;
+      color: #9B7B5B;
       font-size: 0.8rem;
       font-weight: 600;
       padding: 4px 10px;
@@ -45,13 +45,13 @@
     .lang-btn:hover, .lang-btn.active {
       background: rgba(201,168,76,0.12);
       border-color: rgba(201,168,76,0.5);
-      color: #c9a84c;
+      color: #8B5E3C;
     }
 
     .container { max-width: 960px; margin: 0 auto; padding: 36px 20px; }
 
-    .meta { color: #7a6040; font-size: 0.85rem; margin-bottom: 28px; }
-    .meta strong { color: #c9a84c; }
+    .meta { color: #9B7B5B; font-size: 0.85rem; margin-bottom: 28px; }
+    .meta strong { color: #8B5E3C; }
 
     .top-bar {
       display: flex;
@@ -69,11 +69,11 @@
       background: rgba(201,168,76,0.07);
       border: 1px solid rgba(201,168,76,0.2);
       border-radius: 10px;
-      color: #fff;
+      color: #2C1A0E;
       font-size: 0.95rem;
       outline: none;
     }
-    input[type="search"]::placeholder { color: #5a4030; }
+    input[type="search"]::placeholder { color: #B8956A; }
     input[type="search"]:focus { border-color: rgba(201,168,76,0.5); }
 
     /* Add city button */
@@ -81,7 +81,7 @@
       background: rgba(201,168,76,0.1);
       border: 1px solid rgba(201,168,76,0.3);
       border-radius: 10px;
-      color: #c9a84c;
+      color: #8B5E3C;
       font-size: 0.9rem;
       font-weight: 600;
       padding: 10px 18px;
@@ -116,8 +116,8 @@
       max-width: 420px;
     }
 
-    .modal h2 { color: #c9a84c; font-size: 1.3rem; margin-bottom: 8px; }
-    .modal p { color: #7a6040; font-size: 0.85rem; margin-bottom: 24px; line-height: 1.5; }
+    .modal h2 { color: #8B5E3C; font-size: 1.3rem; margin-bottom: 8px; }
+    .modal p { color: #9B7B5B; font-size: 0.85rem; margin-bottom: 24px; line-height: 1.5; }
 
     .modal input[type="text"] {
       width: 100%;
@@ -125,13 +125,13 @@
       background: rgba(201,168,76,0.07);
       border: 1px solid rgba(201,168,76,0.2);
       border-radius: 10px;
-      color: #fff;
+      color: #2C1A0E;
       font-size: 1rem;
       outline: none;
       margin-bottom: 16px;
     }
     .modal input[type="text"]:focus { border-color: rgba(201,168,76,0.5); }
-    .modal input[type="text"]::placeholder { color: #5a4030; }
+    .modal input[type="text"]::placeholder { color: #B8956A; }
 
     .modal-actions { display: flex; gap: 10px; justify-content: flex-end; }
 
@@ -139,7 +139,7 @@
       background: none;
       border: 1px solid rgba(255,255,255,0.1);
       border-radius: 10px;
-      color: #7a6040;
+      color: #9B7B5B;
       font-size: 0.9rem;
       padding: 10px 18px;
       cursor: pointer;
@@ -150,7 +150,7 @@
       background: rgba(201,168,76,0.15);
       border: 1px solid rgba(201,168,76,0.4);
       border-radius: 10px;
-      color: #c9a84c;
+      color: #8B5E3C;
       font-size: 0.9rem;
       font-weight: 600;
       padding: 10px 20px;
@@ -166,7 +166,7 @@
       padding: 12px 0 0;
     }
     .modal-success .icon { font-size: 2.5rem; margin-bottom: 10px; }
-    .modal-success p { color: #a89060; font-size: 0.9rem; margin-bottom: 0; }
+    .modal-success p { color: #9B7B5B; font-size: 0.9rem; margin-bottom: 0; }
 
     /* Grid */
     .grid {
@@ -193,7 +193,7 @@
     .city-name { font-size: 0.88rem; font-weight: 600; color: #e0c070; }
     .city-count {
       font-size: 0.82rem;
-      color: #c9a84c;
+      color: #8B5E3C;
       font-weight: 700;
       background: rgba(201,168,76,0.12);
       padding: 2px 8px;
@@ -201,19 +201,19 @@
       white-space: nowrap;
     }
 
-    .empty { color: #5a4030; margin-top: 40px; font-size: 0.9rem; }
-    .loading { color: #7a6040; font-size: 0.9rem; padding: 40px 0; }
+    .empty { color: #B8956A; margin-top: 40px; font-size: 0.9rem; }
+    .loading { color: #9B7B5B; font-size: 0.9rem; padding: 40px 0; }
 
     footer {
-      background: #080300;
+      background: #E5DDD4;
       padding: 24px 20px;
       text-align: center;
-      color: #4a3820;
+      color: #B8956A;
       font-size: 0.82rem;
       margin-top: 60px;
     }
-    footer a { color: #7a6040; text-decoration: none; }
-    footer a:hover { color: #c9a84c; }
+    footer a { color: #9B7B5B; text-decoration: none; }
+    footer a:hover { color: #8B5E3C; }
     footer .sep { margin: 0 10px; }
   </style>
 </head>
@@ -249,7 +249,10 @@
       <span class="sep">·</span>
       <a href="/privacy.html" id="footer-privacy">Privacy Policy</a>
       <span class="sep">·</span>
-      <a href="mailto:support@hookahmap.app" id="footer-contact">Contact</a>
+      <a href="mailto:hello@tulpara.com" id="footer-contact">Contact</a>
+    </p>
+    <p style="margin-top:10px;font-size:0.75rem;color:#C4A882">
+      A product by <a href="https://tulpara.com" target="_blank" style="color:#8B5E3C;font-weight:600;text-decoration:none">Tulpara</a>
     </p>
   </footer>
 

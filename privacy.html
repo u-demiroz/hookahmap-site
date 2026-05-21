@@ -20,6 +20,8 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
     }
     .logo-link {
       display: flex;
@@ -31,61 +33,38 @@
       font-size: 1.1rem;
     }
     .logo-link img { width: 32px; height: 32px; border-radius: 8px; }
-    .back-link {
-      font-size: 0.85rem;
-      color: #9B7B5B;
-      text-decoration: none;
-    }
+    .header-right { display: flex; align-items: center; gap: 16px; }
+    .back-link { font-size: 0.85rem; color: #9B7B5B; text-decoration: none; }
     .back-link:hover { color: #8B5E3C; }
-
+    .lang-bar { display: flex; gap: 6px; }
+    .lang-btn {
+      background: rgba(245,239,230,0.85);
+      border: 1px solid rgba(139,94,60,0.2);
+      border-radius: 8px;
+      color: #9B7B5B;
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 4px 10px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .lang-btn:hover, .lang-btn.active {
+      background: rgba(139,94,60,0.1);
+      border-color: rgba(139,94,60,0.5);
+      color: #8B5E3C;
+    }
     main {
       max-width: 720px;
       margin: 0 auto;
       padding: 60px 24px 80px;
     }
-    h1 {
-      font-size: 2.2rem;
-      font-weight: 700;
-      color: #8B5E3C;
-      margin-bottom: 8px;
-      letter-spacing: -0.5px;
-    }
-    .updated {
-      font-size: 0.85rem;
-      color: #B8956A;
-      margin-bottom: 48px;
-    }
-    h2 {
-      font-size: 1.15rem;
-      font-weight: 700;
-      color: #5C3A1E;
-      margin: 36px 0 12px;
-    }
-    p {
-      color: #6B4A2A;
-      line-height: 1.8;
-      font-size: 0.97rem;
-      margin-bottom: 14px;
-    }
-    ul {
-      list-style: none;
-      padding: 0;
-      margin-bottom: 14px;
-    }
-    ul li {
-      color: #6B4A2A;
-      font-size: 0.97rem;
-      line-height: 1.8;
-      padding-left: 18px;
-      position: relative;
-    }
-    ul li::before {
-      content: '·';
-      position: absolute;
-      left: 0;
-      color: #8B5E3C;
-      font-weight: 700;
-    }
+    h1 { font-size: 2.2rem; font-weight: 700; color: #8B5E3C; margin-bottom: 8px; letter-spacing: -0.5px; }
+    .updated { font-size: 0.85rem; color: #B8956A; margin-bottom: 48px; }
+    h2 { font-size: 1.15rem; font-weight: 700; color: #5C3A1E; margin: 36px 0 12px; }
+    p { color: #6B4A2A; line-height: 1.8; font-size: 0.97rem; margin-bottom: 14px; }
+    ul { list-style: none; padding: 0; margin-bottom: 14px; }
+    ul li { color: #6B4A2A; font-size: 0.97rem; line-height: 1.8; padding-left: 18px; position: relative; }
+    ul li::before { content: '·'; position: absolute; left: 0; color: #8B5E3C; font-weight: 700; }
     a { color: #8B5E3C; }
     a:hover { text-decoration: underline; }
     .contact-box {
@@ -96,7 +75,6 @@
       padding: 24px 28px;
     }
     .contact-box p { margin: 0; }
-
     footer {
       background: #E5DDD4;
       border-top: 1px solid rgba(139,94,60,0.1);
@@ -117,74 +95,220 @@
       <img src="/logo.jpg" alt="HookahMap">
       HookahMap
     </a>
-    <a href="/" class="back-link">← Back</a>
+    <div class="header-right">
+      <div class="lang-bar">
+        <button class="lang-btn active" onclick="setLang('en')">EN</button>
+        <button class="lang-btn" onclick="setLang('tr')">TR</button>
+        <button class="lang-btn" onclick="setLang('es')">ES</button>
+        <button class="lang-btn" onclick="setLang('ru')">RU</button>
+      </div>
+      <a href="/" class="back-link" id="back-link">← Back</a>
+    </div>
   </header>
 
   <main>
-    <h1>Privacy Policy</h1>
-    <p class="updated">Last updated: March 2026</p>
+    <h1 id="pp-title">Privacy Policy</h1>
+    <p class="updated" id="pp-updated">Last updated: March 2026</p>
 
-    <p>HookahMap ("we", "our", or "us") is committed to protecting your privacy. This policy explains what information we collect, how we use it, and your rights regarding your data.</p>
+    <p id="pp-intro"></p>
 
-    <h2>1. Information We Collect</h2>
-    <p>We may collect the following types of information:</p>
-    <ul>
-      <li><strong>Location data</strong> — used only to show nearby hookah lounges. Never stored on our servers.</li>
-      <li><strong>Account information</strong> — email address if you create an account (optional).</li>
-      <li><strong>Usage data</strong> — anonymized analytics to improve app performance (e.g., crash reports).</li>
-      <li><strong>User content</strong> — reviews, ratings, and venue suggestions you voluntarily submit.</li>
-    </ul>
+    <h2 id="h-1"></h2>
+    <p id="p-1a"></p>
+    <ul id="ul-1"></ul>
 
-    <h2>2. How We Use Your Information</h2>
-    <ul>
-      <li>To display relevant hookah venues near your location.</li>
-      <li>To save your favorites and preferences across sessions.</li>
-      <li>To improve app features and fix bugs.</li>
-      <li>To respond to your support requests.</li>
-    </ul>
+    <h2 id="h-2"></h2>
+    <ul id="ul-2"></ul>
 
-    <h2>3. Data Sharing</h2>
-    <p>We do not sell, rent, or trade your personal data. We may share anonymized, aggregated data with third-party analytics providers. Location data is processed on-device and is never transmitted to our servers.</p>
+    <h2 id="h-3"></h2>
+    <p id="p-3"></p>
 
-    <h2>4. Third-Party Services</h2>
-    <p>HookahMap uses the following third-party services which have their own privacy policies:</p>
-    <ul>
-      <li>Google AdMob — for in-app advertising</li>
-      <li>Apple App Store / Google Play — for app distribution</li>
-      <li>Supabase — for backend data storage (venue database)</li>
-    </ul>
+    <h2 id="h-4"></h2>
+    <p id="p-4"></p>
+    <ul id="ul-4"></ul>
 
-    <h2>5. Data Retention</h2>
-    <p>We retain your data for as long as your account is active or as needed to provide services. You may request deletion of your account and associated data at any time by contacting us.</p>
+    <h2 id="h-5"></h2>
+    <p id="p-5"></p>
 
-    <h2>6. Children's Privacy</h2>
-    <p>HookahMap is not intended for users under the age of 18. We do not knowingly collect personal data from minors.</p>
+    <h2 id="h-6"></h2>
+    <p id="p-6"></p>
 
-    <h2>7. Your Rights</h2>
-    <p>Depending on your location, you may have rights to access, correct, or delete your personal data. To exercise these rights, please contact us.</p>
+    <h2 id="h-7"></h2>
+    <p id="p-7"></p>
 
-    <h2>8. Changes to This Policy</h2>
-    <p>We may update this policy from time to time. Changes will be reflected by the "Last updated" date above. Continued use of the app constitutes acceptance of the updated policy.</p>
+    <h2 id="h-8"></h2>
+    <p id="p-8"></p>
 
     <div class="contact-box">
-      <h2 style="margin-top:0">Contact Us</h2>
-      <p>Questions or requests regarding your privacy? Reach us at <a href="mailto:hello@tulpara.com">hello@tulpara.com</a></p>
+      <h2 style="margin-top:0" id="h-contact"></h2>
+      <p id="p-contact"></p>
     </div>
   </main>
 
   <footer>
     <p>© 2026 HookahMap
       <span class="sep">·</span>
-      <a href="/">Home</a>
+      <a href="/" id="footer-home">Home</a>
       <span class="sep">·</span>
-      <a href="/privacy.html">Privacy Policy</a>
+      <a href="/privacy.html" id="footer-privacy">Privacy Policy</a>
       <span class="sep">·</span>
-      <a href="mailto:hello@tulpara.com">Contact</a>
+      <a href="mailto:hello@tulpara.com" id="footer-contact">Contact</a>
     </p>
     <p style="margin-top:10px;font-size:0.75rem;color:#C4A882">
       A product by <a href="https://tulpara.com" target="_blank" style="color:#8B5E3C;font-weight:600;text-decoration:none">Tulpara</a>
     </p>
   </footer>
+
+  <script>
+    const i18n = {
+      en: {
+        title: 'Privacy Policy',
+        updated: 'Last updated: March 2026',
+        back: '← Back',
+        intro: 'HookahMap ("we", "our", or "us") is committed to protecting your privacy. This policy explains what information we collect, how we use it, and your rights regarding your data.',
+        h1: '1. Information We Collect',
+        p1a: 'We may collect the following types of information:',
+        ul1: ['<strong>Location data</strong> — used only to show nearby hookah lounges. Never stored on our servers.', '<strong>Account information</strong> — email address if you create an account (optional).', '<strong>Usage data</strong> — anonymized analytics to improve app performance (e.g., crash reports).', '<strong>User content</strong> — reviews, ratings, and venue suggestions you voluntarily submit.'],
+        h2: '2. How We Use Your Information',
+        ul2: ['To display relevant hookah venues near your location.', 'To save your favorites and preferences across sessions.', 'To improve app features and fix bugs.', 'To respond to your support requests.'],
+        h3: '3. Data Sharing',
+        p3: 'We do not sell, rent, or trade your personal data. We may share anonymized, aggregated data with third-party analytics providers. Location data is processed on-device and is never transmitted to our servers.',
+        h4: '4. Third-Party Services',
+        p4: 'HookahMap uses the following third-party services which have their own privacy policies:',
+        ul4: ['Google AdMob — for in-app advertising', 'Apple App Store / Google Play — for app distribution', 'Supabase — for backend data storage (venue database)'],
+        h5: '5. Data Retention',
+        p5: 'We retain your data for as long as your account is active or as needed to provide services. You may request deletion of your account and associated data at any time by contacting us.',
+        h6: '6. Children\'s Privacy',
+        p6: 'HookahMap is not intended for users under the age of 18. We do not knowingly collect personal data from minors.',
+        h7: '7. Your Rights',
+        p7: 'Depending on your location, you may have rights to access, correct, or delete your personal data. To exercise these rights, please contact us.',
+        h8: '8. Changes to This Policy',
+        p8: 'We may update this policy from time to time. Changes will be reflected by the "Last updated" date above. Continued use of the app constitutes acceptance of the updated policy.',
+        hContact: 'Contact Us',
+        pContact: 'Questions or requests regarding your privacy? Reach us at <a href="mailto:hello@tulpara.com">hello@tulpara.com</a>',
+        footerHome: 'Home', footerPrivacy: 'Privacy Policy', footerContact: 'Contact',
+      },
+      tr: {
+        title: 'Gizlilik Politikası',
+        updated: 'Son güncelleme: Mart 2026',
+        back: '← Geri',
+        intro: 'HookahMap olarak gizliliğinizi korumaya önem veriyoruz. Bu politika, hangi bilgileri topladığımızı, bunları nasıl kullandığımızı ve verilerinizle ilgili haklarınızı açıklar.',
+        h1: '1. Topladığımız Bilgiler',
+        p1a: 'Aşağıdaki türde bilgileri toplayabiliriz:',
+        ul1: ['<strong>Konum verisi</strong> — yalnızca yakın nargile mekanlarını göstermek için kullanılır. Sunucularımızda saklanmaz.', '<strong>Hesap bilgisi</strong> — hesap oluşturursanız e-posta adresiniz (isteğe bağlı).', '<strong>Kullanım verisi</strong> — uygulama performansını geliştirmek için anonimleştirilmiş analitik veriler.', '<strong>Kullanıcı içeriği</strong> — gönüllü olarak eklediğiniz yorumlar, puanlar ve mekan önerileri.'],
+        h2: '2. Bilgileri Nasıl Kullanıyoruz',
+        ul2: ['Konumunuza göre yakın nargile mekanlarını göstermek için.', 'Favorilerinizi ve tercihlerinizi kaydetmek için.', 'Uygulama özelliklerini geliştirmek ve hataları düzeltmek için.', 'Destek taleplerinize yanıt vermek için.'],
+        h3: '3. Veri Paylaşımı',
+        p3: 'Kişisel verilerinizi satmıyor, kiralamıyor veya takas etmiyoruz. Üçüncü taraf analitik sağlayıcılarıyla yalnızca anonimleştirilmiş, toplu veriler paylaşılabilir. Konum verisi cihazınızda işlenir ve sunucularımıza iletilmez.',
+        h4: '4. Üçüncü Taraf Hizmetler',
+        p4: 'HookahMap, kendi gizlilik politikaları olan aşağıdaki üçüncü taraf hizmetleri kullanır:',
+        ul4: ['Google AdMob — uygulama içi reklamlar için', 'Apple App Store / Google Play — uygulama dağıtımı için', 'Supabase — arka uç veri depolama için (mekan veritabanı)'],
+        h5: '5. Veri Saklama',
+        p5: 'Verilerinizi hesabınız aktif olduğu sürece veya hizmetleri sağlamak için gerektiği kadar saklarız. Hesabınızın ve ilgili verilerinizin silinmesini istediğiniz zaman bizimle iletişime geçebilirsiniz.',
+        h6: '6. Çocukların Gizliliği',
+        p6: 'HookahMap, 18 yaşın altındaki kullanıcılara yönelik değildir. Reşit olmayan kişilerden bilerek kişisel veri toplamıyoruz.',
+        h7: '7. Haklarınız',
+        p7: 'Bulunduğunuz konuma bağlı olarak kişisel verilerinize erişme, düzeltme veya silme hakkına sahip olabilirsiniz. Bu hakları kullanmak için bizimle iletişime geçin.',
+        h8: '8. Politika Değişiklikleri',
+        p8: 'Bu politikayı zaman zaman güncelleyebiliriz. Değişiklikler yukarıdaki "Son güncelleme" tarihi ile yansıtılır. Uygulamayı kullanmaya devam etmeniz güncel politikayı kabul ettiğiniz anlamına gelir.',
+        hContact: 'İletişim',
+        pContact: 'Gizliliğinizle ilgili sorularınız veya talepleriniz için: <a href="mailto:hello@tulpara.com">hello@tulpara.com</a>',
+        footerHome: 'Ana Sayfa', footerPrivacy: 'Gizlilik Politikası', footerContact: 'İletişim',
+      },
+      es: {
+        title: 'Política de Privacidad',
+        updated: 'Última actualización: Marzo 2026',
+        back: '← Volver',
+        intro: 'En HookahMap nos comprometemos a proteger tu privacidad. Esta política explica qué información recopilamos, cómo la usamos y tus derechos sobre tus datos.',
+        h1: '1. Información que Recopilamos',
+        p1a: 'Podemos recopilar los siguientes tipos de información:',
+        ul1: ['<strong>Datos de ubicación</strong> — usados únicamente para mostrar locales de hookah cercanos. Nunca se almacenan en nuestros servidores.', '<strong>Información de cuenta</strong> — dirección de correo si creas una cuenta (opcional).', '<strong>Datos de uso</strong> — análisis anónimos para mejorar el rendimiento de la app.', '<strong>Contenido del usuario</strong> — reseñas, valoraciones y sugerencias de locales que envíes voluntariamente.'],
+        h2: '2. Cómo Usamos tu Información',
+        ul2: ['Para mostrar locales de hookah relevantes cerca de tu ubicación.', 'Para guardar tus favoritos y preferencias entre sesiones.', 'Para mejorar funciones de la app y corregir errores.', 'Para responder a tus solicitudes de soporte.'],
+        h3: '3. Compartir Datos',
+        p3: 'No vendemos, alquilamos ni intercambiamos tus datos personales. Podemos compartir datos anonimizados y agregados con proveedores de análisis externos. Los datos de ubicación se procesan en el dispositivo y nunca se transmiten a nuestros servidores.',
+        h4: '4. Servicios de Terceros',
+        p4: 'HookahMap utiliza los siguientes servicios de terceros que tienen sus propias políticas de privacidad:',
+        ul4: ['Google AdMob — para publicidad dentro de la app', 'Apple App Store / Google Play — para distribución de la app', 'Supabase — para almacenamiento de datos (base de datos de locales)'],
+        h5: '5. Retención de Datos',
+        p5: 'Conservamos tus datos mientras tu cuenta esté activa o según sea necesario para prestar los servicios. Puedes solicitar la eliminación de tu cuenta y datos asociados en cualquier momento contactándonos.',
+        h6: '6. Privacidad de Menores',
+        p6: 'HookahMap no está destinado a usuarios menores de 18 años. No recopilamos conscientemente datos personales de menores.',
+        h7: '7. Tus Derechos',
+        p7: 'Según tu ubicación, puedes tener derechos para acceder, corregir o eliminar tus datos personales. Para ejercer estos derechos, contáctanos.',
+        h8: '8. Cambios en esta Política',
+        p8: 'Podemos actualizar esta política periódicamente. Los cambios se reflejarán en la fecha de "Última actualización" indicada arriba. El uso continuado de la app implica la aceptación de la política actualizada.',
+        hContact: 'Contacto',
+        pContact: 'Preguntas o solicitudes sobre tu privacidad: <a href="mailto:hello@tulpara.com">hello@tulpara.com</a>',
+        footerHome: 'Inicio', footerPrivacy: 'Política de Privacidad', footerContact: 'Contacto',
+      },
+      ru: {
+        title: 'Политика конфиденциальности',
+        updated: 'Последнее обновление: Март 2026',
+        back: '← Назад',
+        intro: 'В HookahMap мы серьёзно относимся к защите вашей конфиденциальности. Эта политика объясняет, какие данные мы собираем, как их используем и какие у вас есть права.',
+        h1: '1. Собираемые данные',
+        p1a: 'Мы можем собирать следующие типы информации:',
+        ul1: ['<strong>Данные о местоположении</strong> — используются только для отображения ближайших кальянных. На наших серверах не хранятся.', '<strong>Данные аккаунта</strong> — адрес электронной почты при создании аккаунта (необязательно).', '<strong>Данные об использовании</strong> — анонимная аналитика для улучшения работы приложения.', '<strong>Контент пользователя</strong> — отзывы, оценки и предложения заведений, которые вы добавляете добровольно.'],
+        h2: '2. Использование информации',
+        ul2: ['Для отображения ближайших кальянных по вашему местоположению.', 'Для сохранения избранного и настроек между сессиями.', 'Для улучшения функций приложения и исправления ошибок.', 'Для ответа на ваши запросы в службу поддержки.'],
+        h3: '3. Передача данных',
+        p3: 'Мы не продаём, не сдаём в аренду и не обмениваем ваши личные данные. Анонимизированные сводные данные могут передаваться сторонним аналитическим провайдерам. Данные о местоположении обрабатываются на устройстве и никогда не передаются на наши серверы.',
+        h4: '4. Сторонние сервисы',
+        p4: 'HookahMap использует следующие сторонние сервисы, имеющие собственные политики конфиденциальности:',
+        ul4: ['Google AdMob — реклама внутри приложения', 'Apple App Store / Google Play — распространение приложения', 'Supabase — хранение данных (база заведений)'],
+        h5: '5. Хранение данных',
+        p5: 'Мы храним ваши данные, пока ваш аккаунт активен или пока это необходимо для предоставления услуг. Вы можете запросить удаление аккаунта и связанных данных в любое время, связавшись с нами.',
+        h6: '6. Конфиденциальность детей',
+        p6: 'HookahMap не предназначен для пользователей младше 18 лет. Мы сознательно не собираем персональные данные несовершеннолетних.',
+        h7: '7. Ваши права',
+        p7: 'В зависимости от вашего местоположения вы можете иметь право на доступ, исправление или удаление своих персональных данных. Для реализации этих прав свяжитесь с нами.',
+        h8: '8. Изменения политики',
+        p8: 'Мы можем периодически обновлять эту политику. Изменения отражаются в дате «Последнее обновление» выше. Продолжение использования приложения означает принятие обновлённой политики.',
+        hContact: 'Контакты',
+        pContact: 'Вопросы или запросы по конфиденциальности: <a href="mailto:hello@tulpara.com">hello@tulpara.com</a>',
+        footerHome: 'Главная', footerPrivacy: 'Политика конфиденциальности', footerContact: 'Контакты',
+      }
+    };
+
+    function setLang(lang) {
+      document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+      document.querySelector(`.lang-btn[onclick="setLang('${lang}')"]`).classList.add('active');
+      document.documentElement.lang = lang;
+      const t = i18n[lang];
+      document.getElementById('pp-title').textContent = t.title;
+      document.getElementById('pp-updated').textContent = t.updated;
+      document.getElementById('back-link').innerHTML = t.back;
+      document.getElementById('pp-intro').textContent = t.intro;
+      document.getElementById('h-1').textContent = t.h1;
+      document.getElementById('p-1a').textContent = t.p1a;
+      document.getElementById('ul-1').innerHTML = t.ul1.map(x => `<li>${x}</li>`).join('');
+      document.getElementById('h-2').textContent = t.h2;
+      document.getElementById('ul-2').innerHTML = t.ul2.map(x => `<li>${x}</li>`).join('');
+      document.getElementById('h-3').textContent = t.h3;
+      document.getElementById('p-3').textContent = t.p3;
+      document.getElementById('h-4').textContent = t.h4;
+      document.getElementById('p-4').textContent = t.p4;
+      document.getElementById('ul-4').innerHTML = t.ul4.map(x => `<li>${x}</li>`).join('');
+      document.getElementById('h-5').textContent = t.h5;
+      document.getElementById('p-5').textContent = t.p5;
+      document.getElementById('h-6').textContent = t.h6;
+      document.getElementById('p-6').textContent = t.p6;
+      document.getElementById('h-7').textContent = t.h7;
+      document.getElementById('p-7').textContent = t.p7;
+      document.getElementById('h-8').textContent = t.h8;
+      document.getElementById('p-8').textContent = t.p8;
+      document.getElementById('h-contact').textContent = t.hContact;
+      document.getElementById('p-contact').innerHTML = t.pContact;
+      document.getElementById('footer-home').textContent = t.footerHome;
+      document.getElementById('footer-privacy').textContent = t.footerPrivacy;
+      document.getElementById('footer-contact').textContent = t.footerContact;
+    }
+
+    // Detect browser language
+    const browserLang = navigator.language.slice(0, 2);
+    const supported = ['en', 'tr', 'es', 'ru'];
+    setLang(supported.includes(browserLang) ? browserLang : 'en');
+  </script>
 
 </body>
 </html>

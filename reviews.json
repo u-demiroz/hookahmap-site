@@ -1,6 +1,6 @@
 {
-  "updated_at": "2026-06-01T04:00:01.579894+00:00",
-  "total": 1,
+  "updated_at": "2026-06-01T17:31:19.271897+00:00",
+  "total": 2,
   "reviews": [
     {
       "id": "13901434778",
@@ -10,6 +10,16 @@
       "body": "No need Google Maps anymore!",
       "version": "1.0.3",
       "updated": "2026-03-29T15:20:54-07:00"
+    },
+    {
+      "id": "as_13901434778",
+      "source": "appstore",
+      "author": "Dede bjk",
+      "rating": 5,
+      "title": "Maps",
+      "body": "No need Google Maps anymore!",
+      "version": "1.0.3",
+      "date": "2026-03-29T15:20:54-07:00"
     }
   ]
 }

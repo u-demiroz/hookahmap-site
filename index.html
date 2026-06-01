@@ -230,6 +230,10 @@
   <div class="hero">
     <img src="logo.jpg" alt="HookahMap" class="logo">
     <h1>HookahMap</h1>
+    <div style="display:flex;align-items:baseline;gap:6px;justify-content:center;margin-bottom:8px">
+      <span id="hero-counter" style="font-size:2.4rem;font-weight:800;color:#8B5E3C;letter-spacing:-1px;font-variant-numeric:tabular-nums">0</span>
+      <span style="font-size:1.1rem;font-weight:600;color:#9B7B5B" id="hero-counter-label">venues worldwide</span>
+    </div>
     <p class="tagline" id="tagline">Discover the best hookah lounges and shisha bars near you — anywhere in the world.</p>
 
     <div style="display:flex;gap:16px;flex-wrap:wrap;justify-content:center;align-items:center;margin-bottom:60px">
@@ -376,12 +380,36 @@
       document.getElementById('footer-privacy').textContent = t.footerPrivacy;
       document.getElementById('footer-contact').textContent = t.footerContact;
       if (currentTotal) document.getElementById('stat-total').textContent = t.statSuffix(currentTotal);
+      const heroLabels = { en: 'venues worldwide', tr: 'mekan dünya geneli', es: 'locales mundiales', ru: 'заведений по всему миру' };
+      const lbl = document.getElementById('hero-counter-label');
+      if (lbl) lbl.textContent = heroLabels[lang] || heroLabels.en;
       updateReviewsTitle();
     }
 
     fetch('/stats.json').then(r => r.json()).then(d => {
       currentTotal = d.total;
       document.getElementById('stat-total').textContent = i18n[currentLang].statSuffix(d.total);
+
+      // Animated counter
+      const counterEl = document.getElementById('hero-counter');
+      const labelEl = document.getElementById('hero-counter-label');
+      const target = d.total;
+      const duration = 2000;
+      const start = performance.now();
+      const startVal = Math.max(0, target - Math.round(target * 0.08));
+      function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
+      function tick(now) {
+        const elapsed = now - start;
+        const progress = Math.min(elapsed / duration, 1);
+        const current = Math.round(startVal + (target - startVal) * easeOut(progress));
+        counterEl.textContent = current.toLocaleString('en-US');
+        if (progress < 1) requestAnimationFrame(tick);
+        else counterEl.textContent = target.toLocaleString('en-US') + '+';
+      }
+      requestAnimationFrame(tick);
+      // Update label per language
+      const labels = { en: 'venues worldwide', tr: 'mekan dünya geneli', es: 'locales en todo el mundo', ru: 'заведений по всему миру' };
+      if (labelEl) labelEl.id = 'hero-counter-label';
       // Top 10 cities
       const top10 = (d.cities || []).slice(0, 10);
       const grid = document.getElementById('top-cities-grid');

@@ -224,7 +224,7 @@
     <button class="lang-btn active" onclick="setLang('en')">EN</button>
     <button class="lang-btn" onclick="setLang('tr')">TR</button>
     <button class="lang-btn" onclick="setLang('es')">ES</button>
-    <button class="lang-btn" onclick="setLang('ru')">RU</button>
+    <button class="lang-btn" onclick="setLang('ar')">AR</button>
   </div>
 
   <div class="hero">
@@ -340,19 +340,19 @@
         footerContact: 'Contacto',
         statSuffix: n => n.toLocaleString('es-ES') + '+ Locales',
       },
-      ru: {
-        tagline: 'Найди лучшие кальянные рядом с тобой — в любой точке мира.',
-        badgeAlt: 'Загрузить в App Store',
-        playAlt: 'Доступно в Google Play',
-        f1Title: 'Исследуй',  f1Desc: 'Найди ближайшие кальянные по твоему местоположению',
-        f2Title: 'Оценивай',  f2Desc: 'Оставляй отзывы, ставь оценки, заполняй анкеты',
-        f3Title: 'Избранное', f3Desc: 'Сохраняй любимые места на потом',
-        statDesc: 'Тысячи кальянных из Турции и со всего мира. База данных обновляется ежедневно.',
-        citiesLink: 'По городам →',
-        footerCities: 'Города',
-        footerPrivacy: 'Политика конфиденциальности',
-        footerContact: 'Контакты',
-        statSuffix: n => n.toLocaleString('ru-RU') + '+ Заведений',
+      ar: {
+        tagline: 'اكتشف أفضل صالات الشيشة بالقرب منك — في أي مكان في العالم.',
+        badgeAlt: 'حمّل من App Store',
+        playAlt: 'متاح على Google Play',
+        f1Title: 'اكتشف',    f1Desc: 'ابحث عن أقرب الصالات بناءً على موقعك',
+        f2Title: 'قيّم',     f2Desc: 'اترك تعليقاتك وتقييماتك',
+        f3Title: 'المفضلة',  f3Desc: 'احفظ أماكنك المفضلة للرجوع إليها لاحقاً',
+        statDesc: 'آلاف صالات الشيشة من تركيا وحول العالم. قاعدة بيانات محدّثة يومياً.',
+        citiesLink: 'حسب المدينة →',
+        footerCities: 'المدن',
+        footerPrivacy: 'سياسة الخصوصية',
+        footerContact: 'اتصل بنا',
+        statSuffix: n => n.toLocaleString('ar-SA') + '+ مكان',
       }
     };
 
@@ -364,6 +364,7 @@
       document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
       document.querySelector(`.lang-btn[onclick="setLang('${lang}')"]`).classList.add('active');
       document.documentElement.lang = lang;
+      document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
       const t = i18n[lang];
       document.getElementById('tagline').textContent = t.tagline;
       document.getElementById('store-badge').alt = t.badgeAlt;
@@ -380,7 +381,7 @@
       document.getElementById('footer-privacy').textContent = t.footerPrivacy;
       document.getElementById('footer-contact').textContent = t.footerContact;
       if (currentTotal) document.getElementById('stat-total').textContent = t.statSuffix(currentTotal);
-      const heroLabels = { en: 'venues worldwide', tr: 'mekan dünya geneli', es: 'locales mundiales', ru: 'заведений по всему миру' };
+      const heroLabels = { en: 'venues worldwide', tr: 'mekan dünya geneli', es: 'locales mundiales', ar: 'مكان حول العالم' };
       const lbl = document.getElementById('hero-counter-label');
       if (lbl) lbl.textContent = heroLabels[lang] || heroLabels.en;
       updateReviewsTitle();
@@ -408,7 +409,7 @@
       }
       requestAnimationFrame(tick);
       // Update label per language
-      const labels = { en: 'venues worldwide', tr: 'mekan dünya geneli', es: 'locales en todo el mundo', ru: 'заведений по всему миру' };
+      const labels = { en: 'venues worldwide', tr: 'mekan dünya geneli', es: 'locales en todo el mundo', ar: 'مكان حول العالم' };
       if (labelEl) labelEl.id = 'hero-counter-label';
       // Top 10 cities
       const top10 = (d.cities || []).slice(0, 10);
@@ -453,7 +454,7 @@
     function updateReviewsTitle() {
       const el = document.getElementById('reviews-title');
       if (!el) return;
-      const titles = { en: 'What users say', tr: 'Kullanıcılar ne diyor', es: 'Lo que dicen los usuarios', ru: 'Что говорят пользователи' };
+      const titles = { en: 'What users say', tr: 'Kullanıcılar ne diyor', es: 'Lo que dicen los usuarios', ar: 'ماذا يقول المستخدمون' };
       el.textContent = titles[currentLang] || titles.en;
     }
 
